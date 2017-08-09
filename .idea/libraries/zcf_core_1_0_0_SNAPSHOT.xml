@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="zcf-core-1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.m2/repository/com/zw/zcf/zcf-core/1.0.0-SNAPSHOT/zcf-core-1.0.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.m2/repository/com/zw/zcf/zcf-core/1.0.0-SNAPSHOT/zcf-core-1.0.0-SNAPSHOT.jar!/" />
+    </SOURCES>
+  </library>
+</component>
