@@ -31,7 +31,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @return
      */
     public Map<String,Object> getUserInfoById(long id) throws Exception{
-        Map<String,Object> userInfo=userInfoDao.getUserInfoById(id);
+        Map<String,Object> userInfo=userInfoDao.getAllInfoById(id);
         logger.info("-----addUserInfo---userInfo=" + userInfo);
         return userInfo;
     }

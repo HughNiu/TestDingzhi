@@ -2,10 +2,12 @@ package com.handler;
 
 import com.service.FollowAnchorService;
 import com.service.impl.FollowAnchorServiceImpl;
+import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSON;
 import com.zw.zcf.command.Command;
 import com.zw.zcf.command.Response;
 import com.zw.zcf.command.handler.MultiCommandHandler;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;

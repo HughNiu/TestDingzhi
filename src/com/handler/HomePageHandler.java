@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.zw.zcf.queue.*;
 
 /**
  * 首页管理
@@ -42,8 +43,8 @@ public class HomePageHandler extends MultiCommandHandler {
 			//判断参数是否存在
 			if(StringUtils.isBlank(uid)||StringUtils.isBlank(appid)||
 					StringUtils.isBlank(pageNo+"")||StringUtils.isBlank(timestamp+"")){
-				response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.LOST_PARAM.getCode());
-				response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.LOST_PARAM.getInfo());
+				response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.LOST_PARAM.getCode());
+				response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.LOST_PARAM.getInfo());
 				cmd.setResponse(response);
 				return;
 			}
@@ -53,12 +54,12 @@ public class HomePageHandler extends MultiCommandHandler {
 
 			homePageList.add(homePageMap);
 
-			response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.SUCCESS.getCode());
-			response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.SUCCESS.getInfo());
+			response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+			response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
 			response.addValue(ResponseResult.DATA,homePageList);
 			cmd.setResponse(response);
 		} catch (Exception ex) {
-			logger.error("addFollow----cmd:" +cmd + ",exception:", ex);
+			logger.error("getHomePageData----cmd:" +cmd + ",exception:", ex);
 		}
 	}
 }

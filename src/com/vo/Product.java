@@ -6,7 +6,7 @@ package com.vo;
  * 产品类(1 公告，2文章，3帖子，4动态，5直播)
  * Created by luozi on 2017/7/20.
  */
-public class Product extends BaseEntity {
+public class Product extends BaseEntity{
     private String id;//主键
     private int type;//1 公告，2文章，3帖子，4动态，5直播
     private String imgUrls;//多个图片，逗号分开

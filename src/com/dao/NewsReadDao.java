@@ -1,5 +1,6 @@
 package com.dao;
 
+import com.common.Constants;
 import com.zw.zcf.dao.mongo.IMongoDao;
 
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.Map;
  */
 public class NewsReadDao {
 	private final IMongoDao mongoDao;
-	private   int pageSize=20;
 
 	public NewsReadDao() {
 		mongoDao = DaoFactory.getMongoDao("dingzhidb","cust_news_read");
@@ -32,7 +32,7 @@ public class NewsReadDao {
 		Map<String, Object> order = new HashMap<String, Object>();
 		order.put("readTime", -1);// 最大的时间在最前面
 		pageNo=pageNo<=1?(0):pageNo-1;
-		return  mongoDao.findList(cond,order,pageSize*pageNo,pageSize);
+		return  mongoDao.findList(cond,order, Constants.PAGE_SIZE *pageNo,Constants.PAGE_SIZE);
 	}
 
 	/**

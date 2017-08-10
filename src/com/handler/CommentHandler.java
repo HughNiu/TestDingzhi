@@ -6,8 +6,10 @@ import com.util.check.ResponseResult;
 import com.zw.zcf.command.Command;
 import com.zw.zcf.command.Response;
 import com.zw.zcf.command.handler.MultiCommandHandler;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,17 +33,17 @@ public class CommentHandler extends MultiCommandHandler {
         long timestamp = cmd.getLongParam("timestamp");
 
         try {
-            List<Map<String, Object>> commentList = commentService.findCommentList(appId, type, pageNo,timestamp);
+            Map<String, Object> commentList = commentService.findCommentList(appId, type, pageNo,timestamp);
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.SUCCESS.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.SUCCESS.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
             response.addValue(ResponseResult.DATA,commentList);
             cmd.setResponse(response);
         }catch (Exception ex) {
             logger.error("findCommentList----cmd:" + cmd + ",exception:", ex);
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.FAIL.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.FAIL.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
             response.addValue(ResponseResult.DATA,new String[]{});
             cmd.setResponse(response);
         }
@@ -60,15 +62,15 @@ public class CommentHandler extends MultiCommandHandler {
         try {
             commentService.addComment(appId,type,userId,accentId,comtent);
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.SUCCESS.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.SUCCESS.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
             response.addValue(ResponseResult.DATA,new String[]{});
             cmd.setResponse(response);
         } catch (Exception e) {
             e.printStackTrace();
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.FAIL.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.FAIL.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
             response.addValue(ResponseResult.DATA,new String[]{});
             cmd.setResponse(response);
         }
@@ -80,18 +82,18 @@ public class CommentHandler extends MultiCommandHandler {
      */
     public void deleteComment (Command cmd) {
         String appId = cmd.getStringParam("appId");
-        int id = cmd.getIntParam("id");
+        long id = cmd.getLongParam("id");
         try {
             commentService.deleteComment(appId,id);
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.SUCCESS.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.SUCCESS.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
             response.addValue(ResponseResult.DATA,new String[]{});
             cmd.setResponse(response);
         }catch (Exception ex) {
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.FAIL.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.FAIL.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
             response.addValue(ResponseResult.DATA,new String[]{});
             cmd.setResponse(response);
         }
@@ -103,19 +105,19 @@ public class CommentHandler extends MultiCommandHandler {
      */
     public void deleteReply (Command cmd) {
         String appId = cmd.getStringParam("appId");
-        int id = cmd.getIntParam("id");
+        long id = cmd.getLongParam("id");
         int commentId = cmd.getIntParam("commentId");
         try {
             commentService.deleteReply(appId,id,commentId);
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.SUCCESS.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.SUCCESS.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
             response.addValue(ResponseResult.DATA,new String[]{});
             cmd.setResponse(response);
         }catch (Exception ex) {
             Response response = new Response();
-            response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.FAIL.getCode());
-            response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.FAIL.getInfo());
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
             response.addValue(ResponseResult.DATA,new String[]{});
             cmd.setResponse(response);
         }

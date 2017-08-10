@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import com.dao.DaoFactory;
+import com.dao.FollowDao;
 import com.dao.ProductDao;
 import com.service.ProductService;
 import com.vo.Product;

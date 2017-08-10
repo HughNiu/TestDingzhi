@@ -9,11 +9,13 @@ import java.util.Map;
  */
 public interface CommentService {
 
-    List<Map<String, Object>> findCommentList(String appId, int type, int pageNo, long timestamp) throws Exception;
+    Map<String, Object> findCommentList (String appId, int type, int pageNo,long timestamp) throws Exception;
 
-    void addComment(String appId, int type, long userId, long accentId, String comtent) throws Exception;
+    void addComment(String appId,int type,long userId,long accentId,String comtent) throws Exception;
 
-    void deleteComment(String appId, int id);
+    void deleteComment (String appId, long id);
 
-    void deleteReply(String appId, int id, int commentId);
+    void deleteReply (String appId, long id,int commentId);
+
+    void getMyReply();
 }

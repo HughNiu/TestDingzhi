@@ -15,7 +15,19 @@ public class Constants {
 
     public static final int NOTIFY_REWARD_ARTICLE = 5; // 文章打赏通知类型
 
-    public static final int NOTIFY_REWARD_BOOK = 6; // 图书打赏通知类型
+    public static final int NOTIFY_REWARD_BOOK = 6; // 章节打赏通知类型
 
     public static final int NOTIFY_UNREAD = 0; // 通知未读状态
+
+    public static final int PAGE_SIZE = 20; //每页展示数量
+
+    public static final int TRANS_RECHARGE = 0; // 交易类型-充值
+
+    public static final int TRANS_REWARD_ARTICLE = 1; // 交易类型-文章打赏
+
+    public static final int TRANS_REWARD_CHAPTER = 2; // 交易类型-图书章节打赏
+
+    public static final int TRANS_SUBSCRIBE = 3; // 交易类型-图书订阅
+
+    public static final int TRANS_GIFT = 4; // 交易类型-直播送礼
 }

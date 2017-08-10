@@ -1,15 +1,25 @@
 package com.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+
 import com.dao.DaoFactory;
 import com.dao.FollowDao;
 import com.service.FollowAnchorService;
 import com.util.CommonUtil;
 import com.zw.zcf.dao.redis.IRedisDao;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import com.zw.zcf.util.MapUtils;
 
-import java.util.List;
-import java.util.Map;
+import redis.clients.jedis.Tuple;
 
 public class FollowAnchorServiceImpl implements FollowAnchorService {
 	private static FollowDao followDao = new FollowDao();

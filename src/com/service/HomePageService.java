@@ -9,6 +9,6 @@ public interface HomePageService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String,List> getHomePageData(String uid, String appid, int pageNo, long timestamp) throws Exception;
+	public Map<String,List> getHomePageData(String uid,String appid,int pageNo,long timestamp) throws Exception;
 
 }

@@ -1,20 +1,18 @@
 package com;
 
-import com.handler.FollowHandler;
-import com.handler.HomePageHandler;
-import com.handler.ProductHandler;
-import com.handler.UserInfoHandler;
+import com.handler.*;
+import org.apache.log4j.Logger;
+
 import com.zw.zcf.command.executor.SimpleCommandExecutor;
 import com.zw.zcf.server.HttpServer;
-import org.apache.log4j.Logger;
 
 /**
  * BootstrapServer
  */
 public class BootstrapDingzhiServer {
  	private static Logger logger = Logger.getLogger(BootstrapDingzhiServer.class);
-	private static String httpServerHost= LocalResourceManager.getProperty("httpServerHost");
-	private static String httpServerPort= LocalResourceManager.getProperty("httpServerPort");
+	private static String httpServerHost=LocalResourceManager.getProperty("httpServerHost");
+	private static String httpServerPort=LocalResourceManager.getProperty("httpServerPort");
 
 	public static void main(String[] args) throws Exception {
 		SimpleCommandExecutor httpExecutor = new SimpleCommandExecutor();
@@ -23,6 +21,8 @@ public class BootstrapDingzhiServer {
         httpExecutor.registerHandler("product",new ProductHandler());
 		httpExecutor.registerHandler("userInfo",new UserInfoHandler());
 		httpExecutor.registerHandler("homaPage",new HomePageHandler());
+		httpExecutor.registerHandler("comment",new CommentHandler());
+		httpExecutor.registerHandler("book",new BookHandler());
 
 
 		// 启动一个HTTP服务器，默认是netty

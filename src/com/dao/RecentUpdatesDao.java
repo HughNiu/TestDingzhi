@@ -1,5 +1,6 @@
 package com.dao;
 
+import com.common.Constants;
 import com.zw.zcf.dao.mongo.IMongoDao;
 
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.Map;
  */
 public class RecentUpdatesDao {
 	private final IMongoDao mongoDao;
-	private   int pageSize=20;
 
 	public RecentUpdatesDao() {
 		mongoDao = DaoFactory.getMongoDao("dingzhidb","cust_book");
@@ -33,7 +33,7 @@ public class RecentUpdatesDao {
 		cond.put("appId", appId);
 
 		List<String> fileList = new ArrayList<String>();
-		fileList.add("bookId");
+		fileList.add("id");
 		fileList.add("bookName");
 		fileList.add("bookImg");
 		fileList.add("introduction");
@@ -43,7 +43,7 @@ public class RecentUpdatesDao {
 		Map<String, Object> order = new HashMap<String, Object>();
 		order.put("bookNewestTime", -1);// 最大的时间在最前面
 		pageNo=pageNo<=1?(0):pageNo-1;
-		List<Map<String,Object>> recentUpdatesList = mongoDao.findList(cond,fileList,order,pageSize*pageNo,pageSize);
+		List<Map<String,Object>> recentUpdatesList = mongoDao.findList(cond,fileList,order, Constants.PAGE_SIZE *pageNo,Constants.PAGE_SIZE);
 
 		//根据图书获取用户最近阅读章节，用来跳转到用户的章节
 		if(recentUpdatesList.size()>0&&!recentUpdatesList.isEmpty()){

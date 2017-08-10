@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public class ProductDao {
     private final IMongoDao mongoDao;
-    private   int pageSize=20;
     public ProductDao() {
         mongoDao = DaoFactory.getFollowMongoDao("dingzhidb","Product");
     }

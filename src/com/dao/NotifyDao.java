@@ -26,26 +26,27 @@ public class NotifyDao {
 
     /**
      * 新增通知记录
-     * @param userId 通知接收的用户id
+     * @param toUserId 通知接收的用户id
      * @param content 通知内容(回复时为回复内容, 评论时为评论内容, 打赏时为打赏金额)
      * @param type 通知类型
      * @param fromUserId 发出通知者id
      * @param source 通知来源 key必须包含title, content, createTime, 字段值可为空
      * @param appId
      */
-    public void insert(long userId, String content, int type, long fromUserId,
+    public void insert(long toUserId, String content, int type, long fromUserId,
                        Map<String, Object> source, String appId) throws Exception {
         Map<String, Object> notification = new HashMap<String, Object>();
         notification.put("notifyId", mongoDao.getAutoId("id"));
-        notification.put("toUserId", userId);
+        notification.put("toUserId", toUserId);
         notification.put("content", content);
         notification.put("type", type);
         notification.put("fromUserId", fromUserId);
         notification.put("source", source);
         notification.put("appId", appId);
         notification.put("status", Constants.NOTIFY_UNREAD);
-        notification.put("createTime", System.currentTimeMillis());
-        notification.put("timestamp", System.currentTimeMillis());
+        long now = System.currentTimeMillis();
+        notification.put("createTime", now);
+        notification.put("timestamp", now);
         mongoDao.insert(notification);
     }
 
@@ -124,7 +125,7 @@ public class NotifyDao {
      * @param types 通知类型
      * @return
      */
-    public List<Map<String, Object>> getNotifyByPage(long userId, int pageNo, int pageSize, List<Integer> types) {
+    public List<Map<String, Object>> getByPage(long userId, int pageNo, int pageSize, List<Integer> types) {
         Map<String, Object> cond = new HashMap<String, Object>();
         List<Map<String, Object>> typeList = new ArrayList<Map<String, Object>>();
         for (int type:types) {
