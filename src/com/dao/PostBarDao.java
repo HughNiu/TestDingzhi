@@ -162,12 +162,10 @@ public class PostBarDao {
         fields.add("jumpUrl");
         fields.add("type");
         fields.add("createTime");
-        fields.add("updateTime");
-        fields.add("timestamp");
 
         Map<String, Object> obj = new HashedMap();
         obj.put("timestamp",-1);
-        pageNo = pageNo == 1 ? 0 : pageNo;
+        pageNo = pageNo == 1 ? 0 : pageNo-1;
         return mongoDao.findList(cond,fields,obj,pageNo*Constants.PAGE_SIZE,Constants.PAGE_SIZE);
     }
 
@@ -183,4 +181,38 @@ public class PostBarDao {
 
         return mongoDao.findOne(cone,obj);
     }
+
+
+	/**
+	 * 我的文章动态
+	 */
+	public List<Map<String, Object>> getArticleDynamic (String appId, long userId,int pageNo) {
+		Map<String,Object> in = new HashedMap();
+		in.put("$in",new Integer[]{2,3});
+		Map<String,Object> cone = new HashedMap();
+		cone.put("status",0);
+		cone.put("appId",appId);
+		cone.put("userId",userId);
+		cone.put("type",in);
+
+		List<String> fields = new ArrayList<String>();
+		fields.add("id");
+		fields.add("userId");
+		fields.add("title");
+		fields.add("coverImg");
+		fields.add("content");
+		fields.add("commentImg");
+		fields.add("readCount");
+		fields.add("commentCount");
+		fields.add("jumpUrl");
+		fields.add("type");
+		fields.add("createTime");
+
+		Map<String, Object> obj = new HashedMap();
+		obj.put("timestamp",-1);
+
+		pageNo = pageNo == 1 ? 0 : pageNo-1;
+
+		return mongoDao.findList(cone,fields,obj,pageNo*Constants.PAGE_SIZE,Constants.PAGE_SIZE);
+	}
 }

@@ -1,5 +1,6 @@
 package com.dao;
 
+import com.common.Constants;
 import com.vo.TransInfo;
 import com.zw.zcf.dao.mongo.IMongoDao;
 import org.junit.Test;
@@ -35,23 +36,14 @@ public class TransInfoDao {
         mongoDao.insert(transInfo);
     }
 
-    @Test
-    public void test(){
-        List<Integer> types = new ArrayList<Integer>();
-        types.add(1);
-        List<Map<String, Object>> byPage = getByPage(1, types, 0, 10);
-        System.out.println(byPage);
-    }
-
     /**
      * 分页获取交易信息
      * @param userId
      * @param types 交易类型
      * @param pageNo 页号
-     * @param pageSize 页大小
      * @return
      */
-    public List<Map<String, Object>> getByPage(long userId, List<Integer> types, int pageNo, int pageSize) {
+    public List<Map<String, Object>> getByPage(long userId, List<Integer> types, int pageNo) {
         Map<String, Object> cond = new HashMap<String, Object>();
         List<Map<String, Object>> typeList = new ArrayList<Map<String, Object>>();
         for (int type:types) {
@@ -66,6 +58,6 @@ public class TransInfoDao {
         order.put("timestamp", -1);
 
         pageNo = (pageNo <= 1 ? 0 : pageNo - 1);
-        return mongoDao.findList(cond, order, pageNo * pageSize, pageSize);
+        return mongoDao.findList(cond, order, pageNo * Constants.PAGE_SIZE, Constants.PAGE_SIZE);
     }
 }

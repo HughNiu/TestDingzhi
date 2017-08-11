@@ -5,9 +5,12 @@ import com.dao.PostBarDao;
 import com.dao.UserInfoDao;
 import com.service.CommentService;
 import com.util.DateStampConversion;
+import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
+import org.apache.log4j.net.SimpleSocketServer;
 
+import java.text.ParseException;
 import java.util.*;
 
 import static com.common.Constants.PAGE_SIZE;
@@ -128,7 +131,95 @@ public class CommentServiceImpl implements CommentService {
         commentDao.deleteReply(appId,id,commentId);
     }
 
-    public void getMyReply() {
-        List<Map<String, Object>> commentList = commentDao.getMyReply("info", 1L);
+    public Map<String,Object> getMyReply(int pageNo,long userId,String appId) throws Exception {
+        Map<String,Object> map = new HashedMap();
+
+        List<Object> result = new ArrayList<Object>();
+        /**
+         * 我的回复
+         */
+        List<Map<String, Object>> replyList = commentDao.getMyReply(appId, userId,pageNo);
+        if(replyList != null && replyList.size() > 0) {
+            replyDataUpdate(replyList,result);
+        }
+
+        /**
+         * 我的评论
+         */
+        List<Map<String, Object>> commentList = commentDao.getMyComment(appId, userId,pageNo);
+        if(commentList != null && commentList.size() > 0) {
+            commentDataUpdate (commentList, result);
+        }
+        map.put("commentList",result);
+        map.put("pageNo",pageNo);
+        map.put("pageSize",PAGE_SIZE);
+        return map;
+    }
+
+    /**
+     * 我的回复
+     */
+    public void replyDataUpdate (List<Map<String, Object>> replyList,List<Object> result) throws Exception {
+        for (Map map : replyList) {
+            List<Map<String, Object>> replyLists = (List<Map<String, Object>>) map.get("replyList");
+            if(replyList != null && replyList.size() > 0) {
+                for (Map<String, Object> reply : replyLists){
+                    Map<String,Object> commentMap = new HashedMap();
+                    commentMap.put("id",map.get("id"));
+                    commentMap.put("userId",map.get("userId"));
+                    commentMap.put("content",map.get("content"));
+                    reply.put("comment",commentMap);
+
+                    Map<String,Object> postBarMap = new HashedMap();
+                    postBarMap.put("id",0);
+                    postBarMap.put("title","");
+                    postBarMap.put("content","");
+                    reply.put("postBar",postBarMap);
+
+                    Map<String,Object> userMap = new HashedMap();
+                    userMap.put("userId",0);
+                    userMap.put("nickname","");
+                    userMap.put("avatar","");
+                    reply.put("userInfo",userMap);
+                    reply.put("type",1);
+                    reply.put("createTime",DateStampConversion.getTime(reply.get("createTime").toString()));
+                    result.add(reply);
+                }
+            }
+        }
+    }
+
+    /**
+     * 我的评论
+     */
+    public void commentDataUpdate (List<Map<String, Object>> commentList,List<Object> result) throws Exception {
+        for (Map<String,Object> comment : commentList) {
+            Long accentId = (Long)comment.get("accentId");
+            Map<String, Object> postBar = postBarDao.findPostBarById(accentId);
+            if(postBar != null) {
+                Map<String,Object> commentMap = new HashedMap();
+                commentMap.put("id",postBar.get("id"));
+                commentMap.put("title",postBar.get("title"));
+                commentMap.put("content",postBar.get("content"));
+                comment.put("postBar",commentMap);
+                Long userId = (Long) postBar.get("userId");
+                Map<String, Object> userInfo = userInfoDao.getAllInfoById(userId);
+
+                Map<String,Object> userMap = new HashedMap();
+                userMap.put("userId",userInfo.get("userId"));
+                userMap.put("nickname",userInfo.get("nickname"));
+                userMap.put("avatar",userInfo.get("avatar"));
+                comment.put("userInfo",userMap);
+
+                Map<String,Object> replyMap = new HashedMap();
+                replyMap.put("id",0);
+                replyMap.put("userId","");
+                replyMap.put("content","");
+                comment.put("comment",replyMap);
+            }
+            comment.put("createTime",DateStampConversion.getTime(comment.get("createTime").toString()));
+            comment.put("type",2);
+            result.add(comment);
+        }
     }
 }

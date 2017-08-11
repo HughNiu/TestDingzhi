@@ -117,9 +117,9 @@ public class CommentDao {
     }
 
     /**
-     * 我回复的
+     * 我评论的
      */
-    public List<Map<String, Object>> getMyReply(String appId, long userId) {
+    public List<Map<String, Object>> getMyComment(String appId, long userId,int pageNo) {
         Map<String, Object>  cond = new HashedMap();
         cond.put("appId",appId);
         cond.put("userId",userId);
@@ -134,7 +134,31 @@ public class CommentDao {
 
         Map<String, Object>  sort = new HashedMap();
         sort.put("timestamp",-1);
-
-        return mongoDao.findList(cond, fields, sort, 0, Constants.PAGE_SIZE);
+        pageNo = pageNo == 1 ? 0 : pageNo-1;
+        int pageSize = Constants.PAGE_SIZE/2;
+        return mongoDao.findList(cond, fields, sort, pageNo*pageSize, pageSize);
     }
+
+    /**
+     * 我的回复
+     */
+    public List<Map<String, Object>> getMyReply(String appId, long userId,int pageNo) {
+        Map<String, Object>  cond = new HashedMap();
+//        cond.put("appId",appId);
+        cond.put("replyList.userId",userId);
+        cond.put("replyList.status",0);
+
+        List<String> fields = new ArrayList<String>();
+        fields.add("id");
+        fields.add("userId");
+        fields.add("content");
+        fields.add("replyList");
+
+        Map<String, Object>  sort = new HashedMap();
+        sort.put("timestamp",-1);
+        pageNo = pageNo == 1 ? 0 : pageNo-1;
+        int pageSize = Constants.PAGE_SIZE/2;
+        return mongoDao.findList(cond, fields, sort, pageNo*pageSize, pageSize);
+    }
+
 }

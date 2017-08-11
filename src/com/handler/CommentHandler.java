@@ -122,4 +122,28 @@ public class CommentHandler extends MultiCommandHandler {
             cmd.setResponse(response);
         }
     }
+
+    /**
+     * 我发布的回复
+     */
+    public void getMyReply(Command cmd) {
+        String appId = cmd.getStringParam("appId");
+        long userId = cmd.getLongParam("userId");
+        int pageNo = cmd.getIntParam("pageNo");
+        try {
+            Map<String, Object> myReply = commentService.getMyReply(pageNo, userId, appId);
+            Response response = new Response();
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
+            response.addValue(ResponseResult.DATA,myReply);
+            cmd.setResponse(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Response response = new Response();
+            response.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            response.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
+            response.addValue(ResponseResult.DATA,new String[]{});
+            cmd.setResponse(response);
+        }
+    }
 }

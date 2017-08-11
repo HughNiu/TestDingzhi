@@ -23,6 +23,10 @@ public class BootstrapDingzhiServer {
 		httpExecutor.registerHandler("homaPage",new HomePageHandler());
 		httpExecutor.registerHandler("comment",new CommentHandler());
 		httpExecutor.registerHandler("book",new BookHandler());
+		httpExecutor.registerHandler("trans",new TransInfoHandler());
+		httpExecutor.registerHandler("notify",new NotifyHandler());
+		httpExecutor.registerHandler("chapterPaylog",new ChapterPaylogHandler());
+		httpExecutor.registerHandler("newsRead",new NewsReadHandler());
 
 
 		// 启动一个HTTP服务器，默认是netty

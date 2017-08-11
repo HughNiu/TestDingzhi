@@ -3,6 +3,9 @@ package com.dao;
 import com.common.Constants;
 import com.zw.zcf.dao.mongo.IMongoDao;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +13,11 @@ import java.util.Map;
 
 public class BookDao {
 	private final IMongoDao mongoDao;
+	private final IMongoDao contentmongoDao;
 
 	public BookDao() {
 		mongoDao = DaoFactory.getMongoDao("dingzhidb", "cust_book");
+		contentmongoDao = DaoFactory.getMongoDao("dingzhidb", "cust_book_chaptercontent");
 	}
 
 	/**
@@ -28,7 +33,7 @@ public class BookDao {
 		cond.put("bookState", 0);//上架.
 
 		List<String> filedList = new ArrayList<String>();
-		filedList.add("id");
+		filedList.add("bookId");
 		filedList.add("bookName");
 		filedList.add("authorId");
 		filedList.add("bookImg");
@@ -53,7 +58,7 @@ public class BookDao {
 	 */
 	public List<Map<String, Object>> getBookChapter(String bookId) throws Exception {
 		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put("id", Long.parseLong(bookId));
+		cond.put("bookId", Long.parseLong(bookId));
 
 		List<String> filedList = new ArrayList<String>();
 		filedList.add("bookChapterList");
@@ -62,4 +67,26 @@ public class BookDao {
 		order.put("bookNewsTime", -1);// 最大的时间在最前面
 		return mongoDao.findList(cond,filedList, order, 0, -1);
 	}
+
+
+	/**
+	 * 根据图书id和章节id获取图书的内容
+	 * @param bookId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> getContentByCharpterId(String bookId,String charpterId) throws Exception {
+
+		Map<String, Object> cond = new HashMap<String, Object>();
+		cond.put("bookId", Long.parseLong(bookId));
+		cond.put("chapterId", Long.parseLong(charpterId));
+
+		List<String> filedList = new ArrayList<String>();
+		filedList.add("bookId");
+		filedList.add("chapterId");
+		filedList.add("chapterContent");
+
+		return contentmongoDao.findList(cond,filedList,new HashMap<String, Object>(),0,Constants.PAGE_SIZE);
+	}
+
 }

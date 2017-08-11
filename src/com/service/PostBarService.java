@@ -1,5 +1,6 @@
 package com.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,5 +15,7 @@ public interface PostBarService {
 
     void deletePostBar (String appId,int type,long id);
 
-    Map<String, Object> findPostBarByUserId (String appId, int type, long userId, int pageNo);
+    Map<String, Object> findPostBarByUserId (String appId, int type, long userId, int pageNo) throws ParseException;
+
+    Map<String, Object> getArticleDynamic(String appId, long userId, int pageNo) throws ParseException;
 }

@@ -22,11 +22,12 @@ public class ChapterPaylogDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> getBookData(String bookId, String uid) throws Exception {
+	public List<Map<String, Object>> getBookData(String bookId, String uid) throws Exception {
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put("bookId", Long.parseLong(bookId));
 		cond.put("userId",Long.parseLong(uid));
-//		cond.put("createTime",-1);//获取最大的时间
-		return mongoDao.findOne(cond);
+		Map<String, Object> order = new HashMap<String, Object>();
+		order.put("createTime", -1);// 最大的时间在最前面
+		return mongoDao.findList(cond,order,0,500);
 	}
 }

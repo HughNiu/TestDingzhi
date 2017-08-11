@@ -110,18 +110,61 @@ public class PostBarHandler extends MultiCommandHandler {
         long id = cmd.getLongParam("id");
         try {
             postBarService.deletePostBar(appId,type,id);
+            Response re = new Response();
+            re.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            re.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
+            cmd.setResponse(re);
         }catch (Exception e) {
             logger.error("addPostBar----cmd:" +cmd + ",exception:", e);
+            Response re = new Response();
+            re.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            re.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
+            cmd.setResponse(re);
         }
     }
 
-    public void findPostBarByUserId (Command cmd) {
+    public void findPostBarByUserId (Command cmd){
         logger.info("-------addPostBar-------cmd:" + cmd);
         String appId = cmd.getStringParam("appId");
         int type = cmd.getIntParam("type");
         long userId = cmd.getLongParam("userId");
         int pageNo = cmd.getIntParam("pageNo");
 
-        Map<String, Object> result = postBarService.findPostBarByUserId(appId, type, userId, pageNo);
+        try {
+            Map<String, Object> result = postBarService.findPostBarByUserId(appId, type, userId, pageNo);
+            Response re = new Response();
+            re.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            re.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
+            re.addValue(ResponseResult.DATA,result);
+            cmd.setResponse(re);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Response re = new Response();
+            re.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            re.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
+            re.addValue(ResponseResult.DATA,new String[]{});
+            cmd.setResponse(re);
+        }
+    }
+
+    public void getArticleDynamic (Command cmd){
+        logger.info("-------addPostBar-------cmd:" + cmd);
+        String appId = cmd.getStringParam("appId");
+        long userId = cmd.getLongParam("userId");
+        int pageNo = cmd.getIntParam("pageNo");
+
+        try {
+            Map<String, Object> result = postBarService.getArticleDynamic(appId, userId, pageNo);
+            Response re = new Response();
+            re.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.SUCCESS.getCode());
+            re.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.SUCCESS.getInfo());
+            re.addValue(ResponseResult.DATA,result);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Response re = new Response();
+            re.addValue(ResponseResult.CODE,ResponseResult.ResultMsg.FAIL.getCode());
+            re.addValue(ResponseResult.INFO,ResponseResult.ResultMsg.FAIL.getInfo());
+            re.addValue(ResponseResult.DATA,new String[]{});
+        }
     }
 }

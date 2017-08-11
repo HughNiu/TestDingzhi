@@ -1,5 +1,6 @@
 package com.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,5 +18,5 @@ public interface CommentService {
 
     void deleteReply (String appId, long id,int commentId);
 
-    void getMyReply();
+    Map<String,Object> getMyReply(int pageNo,long userId,String appId) throws Exception;
 }

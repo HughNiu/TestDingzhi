@@ -3,6 +3,7 @@ package com.dao;
 import com.vo.Product;
 import com.vo.UserInfo;
 import com.zw.zcf.dao.mongo.IMongoDao;
+import org.apache.commons.collections.MapUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,5 +61,16 @@ public class UserInfoDao {
         Map<String, Object> cond = new HashMap<String, Object>();
         cond.put("userId", userId);
         mongoDao.update(cond, newUserInfo);
+    }
+
+    /**
+     * 根据用户id获取用户类型
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public int getTypeById(long userId) throws Exception{
+        Map<String, Object> userInfo = getAllInfoById(userId);
+        return MapUtils.getIntValue(userInfo, "type", 0);
     }
 }

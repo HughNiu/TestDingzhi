@@ -95,4 +95,42 @@ public class BookHandler extends MultiCommandHandler {
 			logger.error("getBookChapter----cmd:" + cmd + ",exception:", ex);
 		}
 	}
+
+
+	/**
+	 * 根据bookId和charpterId获取图书内容
+	 * @param cmd
+	 */
+	public void getContentByCharpterId(Command cmd) {
+		try {
+
+			List<Map<String, List>>contentList = new ArrayList<Map<String, List>>();
+
+			logger.info("-------getContentByCharpterId-------cmd:" + cmd);
+
+			Response response = new Response();
+
+			String bookId = cmd.getStringParam("bookId");
+			String chapterId = cmd.getStringParam("chapterId");
+
+			//判断参数是否存在
+			if (StringUtils.isBlank(bookId)||StringUtils.isBlank(chapterId)) {
+				response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.LOST_PARAM.getCode());
+				response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.LOST_PARAM.getInfo());
+				cmd.setResponse(response);
+				return;
+			}
+
+			//获取图书内容
+			List<Map<String, Object>> bookMap = bookService.getContentByCharpterId(bookId,chapterId);
+
+			response.addValue(ResponseResult.CODE, ResponseResult.ResultMsg.SUCCESS.getCode());
+			response.addValue(ResponseResult.INFO, ResponseResult.ResultMsg.SUCCESS.getInfo());
+			response.addValue(ResponseResult.DATA, bookMap);
+			cmd.setResponse(response);
+		} catch (Exception ex) {
+			logger.error("getContentByCharpterId----cmd:" + cmd + ",exception:", ex);
+		}
+	}
+	
 }

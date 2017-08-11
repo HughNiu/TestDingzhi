@@ -18,11 +18,9 @@ public class NotifyDao {
 
     private UserInfoDao userDao = new UserInfoDao();
 
-    private NotifyDao() {
+    public NotifyDao() {
         mongoDao = DaoFactory.getMongoDao("dingzhidb", "cust_notify");
     }
-
-    public static NotifyDao notifyDao = new NotifyDao();
 
     /**
      * 新增通知记录
@@ -65,7 +63,7 @@ public class NotifyDao {
         int bookCmtCnt = getCntByTypeAndStatus(userId, Constants.NOTIFY_BOOK_CMT, Constants.NOTIFY_UNREAD);
         notifications.put("comment", bookCmtCnt);
         int rewardArtCnt = getCntByTypeAndStatus(userId, Constants.NOTIFY_REWARD_ARTICLE, Constants.NOTIFY_UNREAD);
-        int rewardBookCnt = getCntByTypeAndStatus(userId, Constants.NOTIFY_REWARD_BOOK, Constants.NOTIFY_UNREAD);
+        int rewardBookCnt = getCntByTypeAndStatus(userId, Constants.NOTIFY_REWARD_CHAPTER, Constants.NOTIFY_UNREAD);
         notifications.put("reward", rewardArtCnt + rewardBookCnt);
         return notifications;
     }
@@ -121,26 +119,20 @@ public class NotifyDao {
      * 分页获取通知列表
      * @param userId 用户id
      * @param pageNo 页号, 从1开始
-     * @param pageSize 页大小
-     * @param types 通知类型
+     * @param type 通知类型
      * @return
      */
-    public List<Map<String, Object>> getByPage(long userId, int pageNo, int pageSize, List<Integer> types) {
+    public List<Map<String, Object>> getByPage(long userId, int type, int pageNo) {
         Map<String, Object> cond = new HashMap<String, Object>();
-        List<Map<String, Object>> typeList = new ArrayList<Map<String, Object>>();
-        for (int type:types) {
-            Map<String, Object> temp = new HashMap<String, Object>();
-            temp.put("type", type);
-            typeList.add(temp);
-        }
-        cond.put("$or", typeList);
-        cond.put("userId", userId);
+        cond.put("type", type);
+        cond.put("toUserId", userId);
 
         Map<String, Object> order = new HashMap<String, Object>();
         order.put("timestamp", -1); // 时间戳倒序
 
         pageNo = (pageNo <= 1 ? 0 : (pageNo - 1));
-        List<Map<String, Object>> notifications = mongoDao.findList(cond, null, order, pageSize * pageNo, pageSize);
+        List<Map<String, Object>> notifications = mongoDao
+                .findList(cond, null, order, Constants.PAGE_SIZE * pageNo, Constants.PAGE_SIZE);
         return notifications;
     }
 }

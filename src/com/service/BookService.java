@@ -20,4 +20,14 @@ public interface BookService {
 	 */
 	public List<Map<String,Object>> getBookChapter(String bookId,String userId) throws Exception;
 
+	/**
+	 * 根据图书id和章节id获取图书的内容
+	 * @param bookId
+	 * @param charpterId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> getContentByCharpterId(String bookId,String charpterId) throws Exception;
+
+
 }
